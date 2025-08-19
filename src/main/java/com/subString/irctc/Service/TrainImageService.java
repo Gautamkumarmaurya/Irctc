@@ -1,4 +1,4 @@
 package com.subString.irctc.Service;
 
-public interface TrainService {
+public class TrainImageService {
 }

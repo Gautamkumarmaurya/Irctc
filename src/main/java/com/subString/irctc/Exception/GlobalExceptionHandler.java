@@ -1,7 +1,6 @@
 package com.subString.irctc.Exception;
 
 import com.subString.irctc.DTO.errorResponse;
-import jakarta.validation.UnexpectedTypeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -21,8 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<errorResponse> NoSuchElementException(NoSuchElementException exception){
         errorResponse errorResponse = new errorResponse("Train Not Found !! "+exception.getMessage(),"404",false);
-        ResponseEntity<errorResponse> errorResponseRequestEntity = new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-        return errorResponseRequestEntity;
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 
@@ -43,6 +42,14 @@ public class GlobalExceptionHandler {
         });
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<errorResponse> SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception){
+        String message = exception.getMessage().contains("Duplicate entry")?" You are trying to provides fields that are already database ":exception.getMessage();
+        errorResponse errorResponse = new errorResponse(message,"400",false);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 
 
 }

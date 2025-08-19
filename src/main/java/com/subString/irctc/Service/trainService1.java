@@ -12,10 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class TrainService {
+public class trainService1 {
 
 
     private TrainRepository trainRepository;
@@ -26,7 +24,7 @@ public class TrainService {
     // it is automatically Autowired with constructor to dependency injection
 
 
-    public TrainService(TrainRepository trainRepository, ModelMapper modelMapper) {
+    public trainService1(TrainRepository trainRepository, ModelMapper modelMapper) {
         this.trainRepository = trainRepository;
         this.modelMapper = modelMapper;
     }

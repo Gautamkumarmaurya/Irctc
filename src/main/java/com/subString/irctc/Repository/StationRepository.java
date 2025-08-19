@@ -1,4 +1,13 @@
 package com.subString.irctc.Repository;
 
-public class StationRepository {
+import com.subString.irctc.Entity.Station;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface StationRepository extends JpaRepository<Station, Long> {
+
+    Optional<Station> findByCode(String code);
 }

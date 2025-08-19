@@ -1,4 +1,4 @@
-package com.subString.irctc.Controller;
+package com.subString.irctc.Controller.Admin;
 
 import com.subString.irctc.Config.AppConstant;
 import com.subString.irctc.DTO.PagedResponse;

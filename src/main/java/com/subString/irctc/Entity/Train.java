@@ -1,58 +1,45 @@
 package com.subString.irctc.Entity;
 
-import com.subString.irctc.Annotations.ValidCoach;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.*;
+ import jakarta.persistence.*;
+ import lombok.*;
 
+ import java.util.List;
+
+@Entity
+@Table(name = "train")
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Train {
 
-
-    @NotEmpty(message = "Train number is required !!")
-    @Size(min = 3 ,max = 10 ,message = "Invalid length of train no ")
-    @Pattern(regexp = "^\\d+$" ,message = "Invalid no. Train no contains only numbers")
     @Id
-    private String trainNo;
+    private Long id;
 
-    @Pattern(regexp = "^[A-Za-z ]+$" , message = "Invalid Name . Train Name contain only letter Alphabet and Space are Allowed")
+    private String number;
+
     private String name;
 
-    @Min(value = 1, message = "Coches must be at least 1")
-    @Max(value = 30, message = "Coches must not exceed 30")
-    @ValidCoach
-    private int coches;
+    private Integer totalDistance;
+
+    @ManyToOne
+    @JoinColumn(name = "source_station_id")
+    private Station sourceStation;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_station_id")
+    private Station destinationStation;
+
+    @OneToMany(mappedBy = "train")
+    private List<TrainRoute> routes; // iska matlab hai train kaun kaun se jagah par rukegi
+
+    @OneToMany(mappedBy = "train")
+    private List<TrainSchedule> schedules;
 
 
-    Train() {}
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private TrainImage trainImage;
 
-    public Train(String trainNo, String name, int coches) {
-        this.trainNo = trainNo;
-        this.name = name;
-        this.coches = coches;
-    }
-
-    public String getTrainNo() {
-        return trainNo;
-    }
-
-    public void setTrainNo(String trainNo) {
-        this.trainNo = trainNo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCoches() {
-        return coches;
-    }
-
-    public void setCoches(int coches) {
-        this.coches = coches;
-    }
 }
+
